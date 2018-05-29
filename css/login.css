@@ -1,0 +1,83 @@
+body {
+  background: var(--primary);
+}
+
+#header {
+  width: 240px;
+  position: absolute;
+  top: 17%;
+  left: calc(50% - 120px);
+  display: inline;
+  padding: 0px 20px;
+  color: white;
+  background: var(--primary);
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  z-index: 999;
+  user-select: none;
+}
+
+.login {
+  position: absolute;
+  width: 50%;
+  height: 380px;
+  background: var(--primary);
+  border: 3px solid var(--white);
+  top: calc(50% - 190px);
+  left: 25%;
+  border-radius: 8px;
+  transition: 0.3s all linear;
+}
+
+.login p {
+  font-size: 24px;
+  color: white;
+  margin: 50px 0px;
+  margin-left: calc(50% - 110px);
+}
+
+.login input {
+  position: relative;
+  left: calc(50% - 150px);
+}
+
+.login span {
+  position: relative;
+  color: white;
+  left: calc(50% - 145px);
+}
+
+#login {
+  opacity: 1;
+  transition: 0.2s all linear;
+}
+
+#register {
+  position: absolute;
+  top: 15%;
+  right: 27.8%;
+  opacity: 0;
+  display: none;
+  transition: 0.2s all linear;
+}
+
+#register.show-form {
+  display: block;
+  opacity: 1;
+}
+
+#login-text b, #register-text b {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.75);
+  transition: 0.2s all ease;
+  text-decoration: underline;
+}
+
+#login-text b {
+  margin-left: 5px;
+}
+
+#login-text b:hover,  #register-text b:hover {
+  color: white;
+}
