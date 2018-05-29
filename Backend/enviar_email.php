@@ -5,8 +5,6 @@ enviar_email('saris.grooby12@gmail.com','Sarai Gil Ramos');
 
 function enviar_email($correo, $nombre){
   try {
-  // admin@ifilac.net
-  // Cdesarrollo2017!
   $mail = new PHPMailer(true);
   ob_start();
   $mail->IsSMTP();
@@ -16,8 +14,6 @@ function enviar_email($correo, $nombre){
   $mail->Host = 'smtp.gmail.com';
   $mail->Username = "softy.uaqdss@gmail.com";
   $mail->Password = "@Softy2018";
-  // $mail->Username = "pruebantendamonos@gmail.com";
-  // $mail->Password = "Ntendamonosprueba17";
   $mail->Port = 587;
   $mail->SMTPOptions = array(
             'ssl' => array(
