@@ -1,23 +1,7 @@
 $(document).ready(function() {
-  $('#login-text b').click(function() {
-    document.title = "Softy | Registro"
-    $('.login').css('height', '450px');
-    $('#header').text('Registro');
-    $('.login p').css('opacity', '0');
-    $('#login').css('opacity', '0');
-    $('#register').addClass('show-form');
-    emptyFields();
-  });
+  $('#login-text b').click(showSignUp);
 
-  $('#register-text b').click(function() {
-    document.title = "Softy | Iniciar Sesión";
-    $('.login').css('height', '380px');
-    $('#header').text('Iniciar sesión');
-    $('.login p').css('opacity', '1');
-    $('#login').css('opacity', '1');
-    $('#register').toggleClass('show-form');
-    emptyFields();
-  });
+  $('#register-text b').click(showLogin);
 
   $('#login').submit(function() {
     var email = $('#email').val();
@@ -50,7 +34,21 @@ $(document).ready(function() {
             pass: sha1(pass)
           };
 
-          console.log(userData);
+          $.ajax({
+            type: 'POST',
+            url: 'php/controllers/register.php',
+            data: JSON.stringify(userData),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(response) {
+              alert(response[0].res);
+              showLogin();
+            },
+            error: function(XMLHttpRequest) {
+              var err = $.parseJSON(XMLHttpRequest.responseText);
+              alert(err[0].res);
+            }
+          });
         } else {
           alert('Las contraseñas no coinciden');
         }
@@ -74,6 +72,26 @@ $(document).ready(function() {
   function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+  }
+
+  function showLogin() {
+    document.title = "Softy | Iniciar Sesión";
+    $('.login').css('height', '380px');
+    $('#header').text('Iniciar sesión');
+    $('.login p').css('opacity', '1');
+    $('#login').css('opacity', '1');
+    $('#register').toggleClass('show-form');
+    emptyFields();
+  }
+
+  function showSignUp() {
+    document.title = "Softy | Registro"
+    $('.login').css('height', '450px');
+    $('#header').text('Registro');
+    $('.login p').css('opacity', '0');
+    $('#login').css('opacity', '0');
+    $('#register').addClass('show-form');
+    emptyFields();
   }
 
   function emptyFields() {
