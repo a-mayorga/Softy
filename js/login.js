@@ -41,10 +41,12 @@ $(document).ready(function() {
             dataType: 'json',
             contentType: 'application/json',
             success: function(response) {
+              // console.log(response);
               alert(response[0].res);
               showLogin();
             },
-            error: function(XMLHttpRequest) {
+            error: function(error) {
+              // console.log(error);
               var err = $.parseJSON(XMLHttpRequest.responseText);
               alert(err[0].res);
             }
