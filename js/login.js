@@ -36,17 +36,15 @@ $(document).ready(function() {
 
           $.ajax({
             type: 'POST',
-            url: 'php/controllers/register.php',
+            url: 'php/controllers/signup.php',
             data: JSON.stringify(userData),
             dataType: 'json',
             contentType: 'application/json',
             success: function(response) {
-              // console.log(response);
               alert(response[0].res);
               showLogin();
             },
             error: function(error) {
-              // console.log(error);
               var err = $.parseJSON(XMLHttpRequest.responseText);
               alert(err[0].res);
             }

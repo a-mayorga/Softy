@@ -1,7 +1,31 @@
-
 <?php
-require 'PHPMailer/PHPMailerAutoload.php';
-enviar_email('saris.grooby12@gmail.com','Sarai Gil Ramos');
+require_once("../Response.php");
+require_once("../Model.php");
+require_once("../libs/PHPMailer/PHPMailerAutoload.php");
+
+use Softy\Response;
+use Softy\Model;
+
+$data = json_decode(file_get_contents("php://input"), true);
+
+$user = new Model("usuarios");
+
+$where = array("correoUsuario" => array("=", $data["email"]));
+$res = $user->find("*", $where);
+
+if(mysqli_num_rows($res) == 0) {
+  $params = array("nombreUsuario" => utf8_decode($data["name"]), "password" => $data["pass"], "correoUsuario" => $data["email"]);
+  $res = $user->save($params);
+
+  if ($res) {
+      enviar_email($data["email"], $data["name"]);
+  } else {
+      echo json_encode(Response::serverError("No se pudo crear la cuenta."));
+  }
+}
+else {
+  echo json_encode(Response::serverError("El correo ya está registrado"));
+}
 
 function enviar_email($correo, $nombre){
   try {
@@ -43,17 +67,14 @@ function enviar_email($correo, $nombre){
             </div>";
   $mail->Body = $body;
   $mail->IsHTML(true);
-  if ($mail->Send()) {
-    return "Correo Enviado";
-  } else {
-    return "Falló";
-  }
-  } catch(Exception $e) {
-      echo 'Excepción capturada: ',  $e->getMessage(), "\n";
-  }
-}
 
-function generateRandomString($length = 10) {
-  return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+  if ($mail->Send()) {
+    echo json_encode(Response::ok("Se creó correctamente tu cuenta. Revisa tu correo."));
+  } else {
+    echo json_encode(Response::serverError("Se creó correctamente tu cuenta. No se envió correo."));
+  }
+
+  } catch(Exception $e) {
+    echo json_encode(Response::serverError($e->getMessage()));
+  }
 }
-?>
