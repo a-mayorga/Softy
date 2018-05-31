@@ -1,4 +1,12 @@
 $(document).ready(function() {
+
+  var isLoggedIn = sessionStorage.getItem('isLoggedIn');
+
+  if(isLoggedIn) {
+    window.location.href = 'dss.html';
+  }
+
+
   $('#login-text b').click(showSignUp);
 
   $('#register-text b').click(showLogin);
@@ -13,7 +21,23 @@ $(document).ready(function() {
         pass: sha1(pass)
       };
 
-      console.log(userData);
+      $.ajax({
+        type: 'POST',
+        url: 'php/controllers/login.php',
+        data: JSON.stringify(userData),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response) {
+          sessionStorage.setItem('isLoggedIn', true);
+          sessionStorage.setItem('name', response[0].res.nombreUsuario);
+          sessionStorage.setItem('email', response[0].res.correoUsuario);
+          window.location.href = 'dss.html';
+        },
+        error: function(XMLHttpRequest) {
+          var err = $.parseJSON(XMLHttpRequest.responseText);
+          alert(err[0].res);
+        }
+      });
     } else {
       alert('Faltan campos por completar');
     }
@@ -44,7 +68,7 @@ $(document).ready(function() {
               alert(response[0].res);
               showLogin();
             },
-            error: function(error) {
+            error: function(XMLHttpRequest) {
               var err = $.parseJSON(XMLHttpRequest.responseText);
               alert(err[0].res);
             }

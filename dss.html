@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/dss.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700" rel="stylesheet">
+  <title>Softy | Tabla</title>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="content">
+      <table>
+        <thead>
+          <tr>
+            <th>Período</th>
+            <th>Frecuencia</th>
+            <th>PS</th>
+            <th>PMS</th>
+            <th>PMD</th>
+            <th>A</th>
+            <th>B</th>
+            <th>PMDA</th>
+            <th>TMAC</th>
+            <th>PTMAC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+            <td>10</td>
+          </tr>
+          <tr class="pair">
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+            <td>10</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="menu">
+      <div class="header-image">
+        <p id="name"></p>
+        <p id="email"></p>
+      </div>
+      <input type="number" min="1" placeholder="K"><br>
+      <input type="number" min="1" placeholder="J"><br>
+      <input type="number" min="1" max="1" placeholder="M"><br>
+      <input type="number" min="0" max="1" placeholder="α"><br>
+      <select>
+        <option value="" selected disabled hidden>Pronóstico SE</option>
+        <option value="1">PS</option>
+        <option value="2">PMS</option>
+        <option value="3">PMD</option>
+        <option value="4">PMDA</option>
+        <option value="5">PTMAC</option>
+      </select>
+      <select>
+        <option value="" selected disabled hidden>Delito</option>
+        <option value="robo">Robo</option>
+        <option value="lesiones">Lesiones</option>
+      </select>
+      <button>Gráficas</button><br>
+      <button>Errores</button>
+      <div class="footer">
+        <div class="divider"></div>
+        <div class="logout-button" id="logoutBtn">
+          <ion-icon name="log-out"></ion-icon><p>Salir</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="libs/jquery/jquery-3.3.1.min.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+  <script src="js/dss.js" charset="utf-8"></script>
+</body>
+</html>
