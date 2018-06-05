@@ -7,9 +7,20 @@
   <title>Softy | Iniciar Sesión</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/animate.css">
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700" rel="stylesheet">
 </head>
 <body>
+  <div id="modal">
+    <ion-icon name="close" id="close-modal"></ion-icon>
+    <div id="authors-div">
+      <img src="" alt="">
+    </div>
+  </div>
+  <div class="tooltip" id="authors">
+    <ion-icon name="people" class="authors"></ion-icon>
+    <span class="tooltiptext">Autores</span>
+  </div>
   <span id="header">Iniciar sesión</span>
   <div class="login">
     <p>Bienvenido a Softy</p>
@@ -27,7 +38,7 @@
       <input type="submit" id="regBtn" value="Registrar"><br>
       <span id="register-text">¿Ya tienes una cuenta? <b>Inicia sesión</b></span>
     </form>
-  </div>  
+  </div>
 
   <script src="libs/jquery/jquery-3.3.1.min.js" charset="utf-8"></script>
   <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>

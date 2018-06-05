@@ -8,8 +8,18 @@ $(document).ready(function() {
 
 
   $('#login-text b').click(showSignUp);
-
   $('#register-text b').click(showLogin);
+  $('#authors').click(showAuthors);
+
+  $('#close-modal').click(function() {
+    $('#modal').removeClass('show');
+  });
+
+  $('#modal').click(function(e) {
+    if($(e.target).is('div')) {
+      $(this).removeClass('show');
+    }
+  });
 
   $('#login').submit(function() {
     var email = $('#email').val();
@@ -102,9 +112,10 @@ $(document).ready(function() {
     document.title = "Softy | Iniciar Sesión";
     $('.login').css('height', '380px');
     $('#header').text('Iniciar sesión');
-    $('.login p').css('opacity', '1');
-    $('#login').css('opacity', '1');
-    $('#register').toggleClass('show-form');
+    $('.login p').css('display', 'block');
+    $('#login').css('display', 'block');
+    $('#login').addClass('animated fadeIn');
+    $('#register').removeClass('show-form');
     emptyFields();
   }
 
@@ -112,10 +123,15 @@ $(document).ready(function() {
     document.title = "Softy | Registro"
     $('.login').css('height', '450px');
     $('#header').text('Registro');
-    $('.login p').css('opacity', '0');
-    $('#login').css('opacity', '0');
+    $('.login p').css('display', 'none');
+    $('#login').css('display', 'none');
     $('#register').addClass('show-form');
+    $('#register').addClass('animated fadeIn');
     emptyFields();
+  }
+
+  function showAuthors() {
+    $('#modal').addClass('show');
   }
 
   function emptyFields() {

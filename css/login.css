@@ -1,5 +1,6 @@
 body {
   background: var(--primary);
+  padding: 16px;
 }
 
 #header {
@@ -26,6 +27,7 @@ body {
   border: 3px solid var(--white);
   top: calc(50% - 190px);
   left: 25%;
+  text-align: center;
   border-radius: 8px;
   transition: 0.3s all linear;
 }
@@ -34,18 +36,15 @@ body {
   font-size: 24px;
   color: white;
   margin: 50px 0px;
-  margin-left: calc(50% - 110px);
 }
 
 .login input {
   position: relative;
-  left: calc(50% - 150px);
 }
 
 .login span {
   position: relative;
   color: white;
-  left: calc(50% - 145px);
 }
 
 #login {
@@ -54,9 +53,8 @@ body {
 }
 
 #register {
-  position: absolute;
+  position: relative;
   top: 15%;
-  right: 27.8%;
   opacity: 0;
   display: none;
   transition: 0.2s all linear;
@@ -80,4 +78,54 @@ body {
 
 #login-text b:hover,  #register-text b:hover {
   color: white;
+}
+
+.authors {
+  color: white;
+  font-size: 24px;
+  background: var(--primary-dark);
+  border-radius: 50%;
+  padding: 9px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-right: 16px;
+}
+
+.tooltip {
+    float: right;
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    text-align: center;
+    top: 100%;
+    left: 50%;
+    margin-top: 5px;
+    margin-left: -55px;
+    padding: 5px 15px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    user-select: none;
+    transition: 0.2s all linear;
+}
+
+.tooltip:hover .tooltiptext {
+  opacity: 1;
+  visibility: visible;
+}
+
+#authors-div {
+  position: relative;
+  width: 70%;
+  height: 500px;
+  background: white;
+  border-radius: 8px;
+  top: calc(50% - 250px);
+  left: 15%;
 }

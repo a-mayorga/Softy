@@ -7,78 +7,53 @@
   <link rel="stylesheet" href="css/dss.css">
   <link rel="stylesheet" href="css/styles.css">
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700" rel="stylesheet">
-  <title>Softy | Tabla</title>
+  <title>Softy</title>
 </head>
 <body>
+  <div id="modal">
+    <ion-icon name="close" id="close-modal"></ion-icon>
+    <div id="errors"></div>
+  </div>
   <div class="wrapper">
     <div class="content">
-      <table>
-        <thead>
-          <tr>
-            <th>Período</th>
-            <th>Frecuencia</th>
-            <th>PS</th>
-            <th>PMS</th>
-            <th>PMD</th>
-            <th>A</th>
-            <th>B</th>
-            <th>PMDA</th>
-            <th>TMAC</th>
-            <th>PTMAC</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="odd">
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>7</td>
-            <td>8</td>
-            <td>9</td>
-            <td>10</td>
-          </tr>
-          <tr class="pair">
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>7</td>
-            <td>8</td>
-            <td>9</td>
-            <td>10</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="no-data" id="no-data">
+        <img src="img/no-data.png">
+        <h1>Sin datos para mostrar</h1>
+      </div>
+      <div class="load" id="loader">
+        <div class="dot"></div>
+        <div class="outline"><span></span></div>
+      </div>
+      <div id="table"></div>
+      <div id="container"></div>
     </div>
     <div class="menu">
       <div class="header-image">
         <p id="name"></p>
         <p id="email"></p>
       </div>
-      <input type="number" min="1" placeholder="K"><br>
-      <input type="number" min="1" placeholder="J"><br>
-      <input type="number" min="1" max="1" placeholder="M"><br>
-      <input type="number" min="0" max="1" placeholder="α"><br>
-      <select>
-        <option value="" selected disabled hidden>Pronóstico SE</option>
-        <option value="1">PS</option>
-        <option value="2">PMS</option>
-        <option value="3">PMD</option>
-        <option value="4">PMDA</option>
-        <option value="5">PTMAC</option>
-      </select>
-      <select>
-        <option value="" selected disabled hidden>Delito</option>
-        <option value="robo">Robo</option>
-        <option value="lesiones">Lesiones</option>
-      </select>
-      <button>Gráficas</button><br>
-      <button>Errores</button>
+      <form id="data" onsubmit="return false;">
+        <input type="number" id="k" min="1" placeholder="K"><br>
+        <input type="number" id="j" min="1" placeholder="J"><br>
+        <input type="number" id="m" min="1" max="1" placeholder="M"><br>
+        <input type="number" id="alpha" min="0" max="1" step="0.1" placeholder="α"><br>
+        <select id="forecast">
+          <option value="" selected disabled hidden>Pronóstico SE</option>
+          <option value="1">PS</option>
+          <option value="2">PMS</option>
+          <option value="3">PMD</option>
+          <option value="4">PMDA</option>
+          <option value="5">PTMAC</option>
+        </select>
+        <select id="crime">
+          <option value="" selected disabled hidden>Delito</option>
+          <option value="1">Robo</option>
+          <option value="2">Lesiones</option>
+        </select>
+        <button data="1" type="submit">Tabla</button>
+        <button data="2" type="submit">Gráficas</button>
+        <button data="3" type="submit">Errores</button>
+      </form>
       <div class="footer">
         <div class="divider"></div>
         <div class="logout-button" id="logoutBtn">
@@ -88,8 +63,8 @@
     </div>
   </div>
   <script src="libs/jquery/jquery-3.3.1.min.js" charset="utf-8"></script>
+  <script src="libs/highcharts/highstock.js" charset="utf-8"></script>
   <script src="https://unpkg.com/ionicons@4.1.2/dist/ionicons.js"></script>
-  <script src="https://code.highcharts.com/highcharts.src.js"></script>
   <script src="js/dss.js" charset="utf-8"></script>
 </body>
 </html>
