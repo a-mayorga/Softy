@@ -19,6 +19,8 @@ $(document).ready(function() {
     var alpha = $('#alpha').val();
     var forecast = $('#forecast').val();
     var crime = $('#crime').val();
+    var name = sessionStorage.getItem('name');
+    var email = sessionStorage.getItem('email');
 
     var data = {
       k: k,
@@ -26,7 +28,9 @@ $(document).ready(function() {
       m: m,
       alpha: alpha,
       forecast: forecast,
-      crime: crime
+      crime: crime,
+      name: name,
+      email: email
     };
 
     if(!areFieldsEmpty(data)) {
