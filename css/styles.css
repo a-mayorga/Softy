@@ -84,7 +84,7 @@ table>tbody>tr {
   text-align: center;
 }
 
-table>tbody>tr>td {
+table>tbody>tr>td, table>tbody>tr>th {
   padding: 6px 9px;
   border: 1px solid white;
 }

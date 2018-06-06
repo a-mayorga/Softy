@@ -28,14 +28,15 @@ $(document).ready(function() {
       m: m,
       alpha: alpha,
       forecast: forecast,
-      crime: crime,
-      name: name,
-      email: email
+      crime: crime
     };
 
     if(!areFieldsEmpty(data)) {
       $('#no-data').css('display', 'none');
       $('#loader').css('display', 'block');
+      data.name = name;
+      data.email = email;
+      data.button = parseInt(clickedBtn);
 
       setTimeout(function() {
         $.ajax({
@@ -45,11 +46,13 @@ $(document).ready(function() {
           dataType: 'json',
           contentType: 'application/json',
           success: function(response) {
+            console.log(response);
 
             switch(clickedBtn) {
               case 1:
                 $('#table').empty();
-                $('#container').css('display', 'none');
+                $('#graphic').css('display', 'none');
+                $('#accelerometer').css('display', 'none');
                 showTable(response);
                 break;
               case 2:
@@ -63,10 +66,11 @@ $(document).ready(function() {
 
             $('#loader').css('display', 'none');
           },
-          error: function(XMLHttpRequest) {
-            $('#loader').css('display', 'none');
-            var err = $.parseJSON(XMLHttpRequest.responseText);
-            alert(err[0].res);
+          error: function(error) {
+            console.log(error);
+            // $('#loader').css('display', 'none');
+            // var err = $.parseJSON(XMLHttpRequest.responseText);
+            // alert(err[0].res);
           }
         });
       }, 1000);
@@ -112,8 +116,8 @@ $(document).ready(function() {
                               '<th>Periodo</th>' +
                               '<th>Frecuencia</th>' +
                               '<th>PS</th>' +
-                              '<th>PMS(k)</th>' +
-                              '<th>PMD(j)</th>' +
+                              '<th>PMS</th>' +
+                              '<th>PMD</th>' +
                               '<th>A</th>' +
                               '<th>B</th>' +
                               '<th>PMDA</th>' +
@@ -133,7 +137,7 @@ $(document).ready(function() {
         className = 'odd';
       }
 
-      for(j = 0; j < response[i].length; j++) {
+      for(j = 0; j < response[i].length - 1; j++) {
         if(response[i][j] === null) {
           response[i][j] = '';
         }
@@ -157,6 +161,12 @@ $(document).ready(function() {
     res += '</tbody>';
 
     $('#table').html(res);
+
+    $('#table table tbody tr:last td').filter(function() {
+      if($(this).text() === response[response.length - 1][12]) {
+        $(this).css('background', 'rgb(50, 199, 87)');
+      }
+    });
   }
 
   function showGraphics(response, forecast, crime) {
@@ -172,10 +182,11 @@ $(document).ready(function() {
     }
 
     $.when(getChartValues(response)).then(function(res) {
-      console.log(res);
-      var myChart = Highcharts.chart('container', {
+      Highcharts.chart('graphic', {
           chart: {
-              type: 'line'
+              scrollablePlotArea: {
+                  minWidth: 700
+              }
           },
           title: {
               text: title
@@ -188,61 +199,125 @@ $(document).ready(function() {
           chart: {
             zoomType: "xy"
           },
-          series: [res.freq, res.ps, res.pms, res.pmd, res.pmda, res.ptmac]
+          series: [res.freq, res.ps, res.pms, res.pmd, res.pmda, res.ptmac, res.se],
+          tooltip: {
+              shared: true,
+              crosshairs: true
+          },
+      });
+
+      var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'accelerometer',
+            type: 'gauge',
+            alignTicks: false,
+            plotBackgroundColor: null,
+            plotBackgroundImage: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        title: {
+          text: ''
+        },
+        pane: {
+            startAngle: -150,
+            endAngle: 150
+        },
+        yAxis: [{
+            min: 0,
+            max: 100,
+            lineColor: '#339',
+            tickColor: '#339',
+            minorTickColor: '#339',
+            offset: -25,
+            lineWidth: 6,
+            labels: {
+                distance: -20,
+                rotation: 'auto'
+            },
+            tickLength: 5,
+            minorTickLength: 5,
+            endOnTick: false
+        }],
+        series: [{
+            name: 'Mejor opción',
+            data: res.bestOpt.data
+        }]
       });
     });
 
-    $('#container').css('display', 'block');
+    $('#graphic').css('display', 'block');
+    $('#accelerometer').css('display', 'block');
   }
 
   function showErrors(response) {
     var lastElement = response.length - 1;
 
     var res = '<table>' +
-                '<tr>' +
-                  '<td><b>PS</b></td>' +
-                  '<td>' + response[lastElement][3] + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                  '<td><b>PMS</b></td>' +
-                  '<td>' + response[lastElement][5] + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                  '<td><b>PMD</b></td>' +
-                  '<td>' + response[lastElement][7] + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                  '<td><b>PMDA</b></td>' +
-                  '<td>' + response[lastElement][11] + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                  '<td><b>PTMAC</b></td>' +
-                  '<td>' + response[lastElement][14] + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                  '<td><b>SE</b></td>' +
-                  '<td>' + response[lastElement][16] + '</td>' +
-                '</tr>' +
+                '<thead>' +
+                  '<tr>' +
+                    '<th></th>' +
+                    '<th>Errores medios</th>' +
+                    '<th>Errores relativos</th>' +
+                  '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                  '<tr class="odd">' +
+                    '<th>PS</th>' +
+                    '<td>' + response[lastElement][0] + '</td>' +
+                    '<td>' + response[lastElement][6] + '</td>' +
+                  '</tr>' +
+                  '<tr class="pair">' +
+                    '<th>PMS</th>' +
+                    '<td>' + response[lastElement][1] + '</td>' +
+                    '<td>' + response[lastElement][7] + '</td>' +
+                  '</tr>' +
+                  '<tr class="odd">' +
+                    '<th>PMD</th>' +
+                    '<td>' + response[lastElement][2] + '</td>' +
+                    '<td>' + response[lastElement][8] + '</td>' +
+                  '</tr>' +
+                  '<tr class="pair">' +
+                    '<th>PMDA</th>' +
+                    '<td>' + response[lastElement][3] + '</td>' +
+                    '<td>' + response[lastElement][9] + '</td>' +
+                  '</tr>' +
+                  '<tr class="odd">' +
+                    '<th>PTMAC</th>' +
+                    '<td>' + response[lastElement][4] + '</td>' +
+                    '<td>' + response[lastElement][10] + '</td>' +
+                  '</tr>' +
+                  '<tr class="pair">' +
+                    '<th>SE</th>' +
+                    '<td>' + response[lastElement][5] + '</td>' +
+                    '<td>' + response[lastElement][11] + '</td>' +
+                  '</tr>' +
+                '</tbody>' +
               '</table>';
 
     $('#errors').html(res);
     $('#modal').addClass('show');
   }
 
-  function getChartValues(data, forecastCol) {
+  function getChartValues(data) {
     var frequency = [];
     var ps = [];
     var pms = [];
     var pmd = [];
     var pmda = [];
     var ptmac = [];
+    var se = [];
+    var bestOpt = [parseFloat(data[data.length - 1][12])];
+
     var returnData = {
       freq: {},
       ps: {},
       pms: {},
       pmd: {},
       pmda: {},
-      ptmac: {}
+      ptmac: {},
+      se: {},
+      bestOpt: {}
     };
 
     for(var i = 0; i < data.length - 1; i++) {
@@ -252,6 +327,7 @@ $(document).ready(function() {
       pmd.push(parseFloat(data[i][6]));
       pmda.push(parseFloat(data[i][10]));
       ptmac.push(parseFloat(data[i][13]));
+      se.push(parseFloat(data[i][15]));
     }
 
     returnData.freq.name = "Frecuencia";
@@ -266,6 +342,9 @@ $(document).ready(function() {
     returnData.pmda.data = pmda;
     returnData.ptmac.name = "PTMAC";
     returnData.ptmac.data = ptmac;
+    returnData.se.name = "SE";
+    returnData.se.data = se;
+    returnData.bestOpt.data = bestOpt;
 
     return returnData;
   }
